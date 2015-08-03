@@ -9,13 +9,22 @@ import ru.noties.spg.SPGSerializer;
  */
 public class DateSerializer implements SPGSerializer<Date, Long> {
 
+    private final long NO_DATE = -1L;
+
     @Override
     public Date deserialize(Long aLong) {
-        return new Date(aLong);
+        final long date = aLong;
+        if (date == NO_DATE) {
+            return null;
+        }
+        return new Date(date);
     }
 
     @Override
     public Long serialize(Date date) {
+        if (date == null) {
+            return NO_DATE;
+        }
         return date.getTime();
     }
 }

@@ -35,7 +35,8 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
 
     private static final String CLASS_STATEMENT_PATTERN = "public final class %s implements SPGPreferenceObject {\n\n";
 
-    private static final String CONST_PREF = "PREFERENCE_NAME";
+    private static final String CONST_PREF_NAME = "PREFERENCE_NAME";
+    private static final String CONST_PREF_MODE = "PREFERENCE_MODE";
     private static final String CONST_KEY = "KEY_";
     private static final String CONST_DEF = "DEF_";
     private static final String CONST_MODIFIERS = "public static final ";
@@ -56,9 +57,6 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
     }
 
     public void write(PreferenceHolder preference) {
-
-        int x = 66;
-        int y = 77;
 
         final TypeElement element = preference.typeElement;
 
@@ -134,10 +132,14 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
     private static void writeConstants(StringBuilder builder, Indent indent, PreferenceHolder preference) {
 
         final String prefName = createConstantStatement(
-                KeyType.STRING, CONST_PREF, "\"" + preference.name + "\""
+                KeyType.STRING, CONST_PREF_NAME, "\"" + preference.name + "\""
         );
+        final String prefMode = createConstantStatement(KeyType.INT, CONST_PREF_MODE, String.valueOf(preference.preferenceMode));
         builder.append(indent)
                 .append(prefName)
+                .append("\n")
+                .append(indent)
+                .append(prefMode)
                 .append("\n\n");
 
         // write defaults
@@ -236,7 +238,7 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
                 .append("(Context context) {\n")
                     .append(indent.increment())
                     .append("this.prefs = context.getSharedPreferences(")
-                    .append(CONST_PREF)
+                    .append(CONST_PREF_NAME)
                     .append(", ")
                     .append(prefMode)
                     .append(");\n")
@@ -531,7 +533,9 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
         // getEditor()
         writeSimpleGet(builder, indent, "SharedPreferences.Editor", "editor", "editor");
 
-        writeSimpleGet(builder, indent, "String", CONST_PREF, "sharedPreferencesName");
+        writeSimpleGet(builder, indent, "String", CONST_PREF_NAME, "sharedPreferencesName");
+
+        writeSimpleGet(builder, indent, "int", CONST_PREF_MODE, "sharedPreferencesMode");
 
         writeGenericGetMethod(builder, indent, preference);
     }
@@ -729,27 +733,34 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
                     .append(indent)
                     .append("private void checkSharedListener() {\n")
                         .append(indent.increment())
-                        .append("if (updateListeners.isEmpty()) {\n")
+                        .append("if (!isListenerRegistered) {\n")
                             .append(indent.increment())
-                            .append("if (isListenerRegistered) {\n")
-                                .append(indent.increment())
-                                .append("prefs.unregisterOnSharedPreferenceChangeListener(sharedListener);\n")
-                                .append(indent)
-                                .append("isListenerRegistered = false;\n")
-                                .append(indent.decrement())
-                            .append("}\n")
-                            .append(indent.decrement())
-                        .append("} else {\n")
-                            .append(indent.increment())
-                            .append("if (!isListenerRegistered) {\n")
-                                .append(indent.increment())
-                                .append("prefs.registerOnSharedPreferenceChangeListener(sharedListener);\n")
-                                .append(indent)
-                                .append("isListenerRegistered = true;\n")
-                                .append(indent.decrement())
-                            .append("}\n")
-                            .append(indent.decrement())
+                            .append("prefs.registerOnSharedPreferenceChangeListener(sharedListener);\n")
+                            .append(indent)
+                            .append("isListenerRegistered = true;\n")
+                    .append(indent.decrement())
                         .append("}\n")
+//                        .append("if (updateListeners.isEmpty()) {\n")
+//                            .append(indent.increment())
+//                            .append("if (isListenerRegistered) {\n")
+//                                .append(indent.increment())
+//                                .append("prefs.unregisterOnSharedPreferenceChangeListener(sharedListener);\n")
+//                                .append(indent)
+//                                .append("isListenerRegistered = false;\n")
+//                                .append(indent.decrement())
+//                            .append("}\n")
+//                            .append(indent.decrement())
+//                        .append("} else {\n")
+//                            .append(indent.increment())
+//                            .append("if (!isListenerRegistered) {\n")
+//                                .append(indent.increment())
+//                                .append("prefs.registerOnSharedPreferenceChangeListener(sharedListener);\n")
+//                                .append(indent)
+//                                .append("isListenerRegistered = true;\n")
+//                                .append(indent.decrement())
+//                            .append("}\n")
+//                            .append(indent.decrement())
+//                        .append("}\n")
                     .append(indent.decrement())
                     .append("}\n\n");
         }

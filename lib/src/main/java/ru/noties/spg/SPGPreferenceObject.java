@@ -10,6 +10,7 @@ import java.util.Map;
 public interface SPGPreferenceObject {
 
     String getSharedPreferencesName();
+    int getSharedPreferencesMode();
     SharedPreferences getSharedPreferences();
     SharedPreferences.Editor getEditor();
     Map<String, Object> toMap();
