@@ -1,0 +1,50 @@
+package ru.noties.spg.processor.data;
+
+import java.util.List;
+
+import javax.lang.model.element.TypeElement;
+
+/**
+ * Created by Dimitry Ivanov on 15.07.2015.
+ */
+public class PreferenceHolder {
+
+    public final TypeElement typeElement;
+    public final String name;
+    public final int preferenceMode;
+    public final List<String> imports;
+    public final boolean isSingleton;
+    public final List<KeyHolder> keys;
+    public final PreferenceDefaults defaults;
+
+    PreferenceHolder(
+            TypeElement typeElement,
+            String name,
+            int preferenceMode,
+            List<String> imports,
+            boolean isSingleton,
+            List<KeyHolder> keys,
+            PreferenceDefaults defaults
+    ) {
+        this.typeElement = typeElement;
+        this.name = name;
+        this.preferenceMode = preferenceMode;
+        this.imports = imports;
+        this.isSingleton = isSingleton;
+        this.keys = keys;
+        this.defaults = defaults;
+    }
+
+    @Override
+    public String toString() {
+        return "PreferenceHolder{" +
+                "typeElement=" + typeElement +
+                ", name='" + name + '\'' +
+                ", preferenceMode=" + preferenceMode +
+                ", imports=" + imports +
+                ", isSingleton=" + isSingleton +
+                ", keys=" + keys +
+                ", defaults=" + defaults +
+                '}';
+    }
+}
