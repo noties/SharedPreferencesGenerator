@@ -5,6 +5,6 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 dependencies {
-    compile project(':anno')
+    compile project(':spg-annotations')
     testCompile 'junit:junit:4.12'
 }

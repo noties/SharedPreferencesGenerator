@@ -1,1 +1,1 @@
-include ':app', ':lib', ':processor', ':anno'
+include ':sample', ':spg-library', ':spg-processor', ':spg-annotations'
