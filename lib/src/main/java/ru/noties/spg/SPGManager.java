@@ -1,8 +1,12 @@
 package ru.noties.spg;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Dimitry Ivanov on 14.07.2015.
@@ -39,15 +43,15 @@ public class SPGManager {
         return SPGManager.getInstance().mContextProvider;
     }
 
-    public static <T, S extends SPGSerializer<T, ?>> S getSerializer(Class<T> c) {
+    public static <S extends SPGSerializer<?, ?>> S getSerializer(Class<S> c) {
         final Map map = SPGManager.getInstance().mSerializers;
         //noinspection unchecked
         return (S) map.get(c);
     }
 
-    public static <T, S extends SPGSerializer<T, ?>> void addSerializer(Class<T> c, S serializer) {
+    public static <S extends SPGSerializer<?, ?>> void addSerializer(S serializer) {
         final Map map = SPGManager.getInstance().mSerializers;
         //noinspection unchecked
-        map.put(c, serializer);
+        map.put(serializer.getClass(), serializer);
     }
 }

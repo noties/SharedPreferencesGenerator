@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ru.noties.spg.SPGManager;
+import ru.noties.spg.sample.pref.DateJsonSerializer;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
