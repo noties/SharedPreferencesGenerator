@@ -221,11 +221,85 @@ boolean onUpdate() default false;
 **onUpdate** - indicates that SPG library should generate a `set*OnUpdateListener()` and listen to the changes that occur with this key
 
 ### Imports & code evaluation
+Default value for a key could be evaluted at runtime. Evaluation values must match `${.+}` pattern.
+```java
+@SPGKey(defaultValue = "${System.currentTimeMillis()}")
+private long firstLaunch;
+```
+There are no predefined evaluations, all code could be evaluated. For example
+```java
+package com.example;
+public class SomeClass {
+	public static String getString() {...}
+}
+```
 
+```java
+@SPGPreference(imports = "com.example.SomeClass")
+public class MyPrefs {
+	@SPGKey(defaultValue = "${SomeClass.getString()}")
+	String someKey;
+}
+```
 
 ### Serialization
+Each key of a preference file could be serialized. It gives an ability to store any data with proper serialization.
+```java
+@SPGKey(serializer = DateSerializer.class)
+Date lastLaunch;
+```
+Where `DateSerializer` is a class that implements `SPGSerializer<TYPE, REPRESENTATION>`
+```java
+public interface SPGSerializer<TYPE, REPRESENTATION> {
+    TYPE deserialize(REPRESENTATION representation);
+    REPRESENTATION serialize(TYPE type);
+}
+```
+```java
+public class DateSerializer implements SPGSerializer<Date, Long> {
+
+    private final long NO_DATE = -1L;
+
+    @Override
+    public Date deserialize(Long aLong) {
+        final long date = aLong;
+        if (date == NO_DATE) {
+            return null;
+        }
+        return new Date(date);
+    }
+
+    @Override
+    public Long serialize(Date date) {
+        if (date == null) {
+            return NO_DATE;
+        }
+        return date.getTime();
+    }
+}
+```
+
+Please note, that a `REPRESENTATION` must be one of the SharedPreferences supported types:
+* Boolean
+* Integer
+* Long
+* Float
+* String
 
 ### SPGPreferenceObject
+Every generated class would implement `SPGPreferenceObject`, which contains some useful methods
+```java
+public interface SPGPreferenceObject {
+
+    String getSharedPreferencesName();
+    int getSharedPreferencesMode();
+    SharedPreferences getSharedPreferences();
+    SharedPreferences.Editor getEditor();
+    Map<String, Object> toMap();
+
+    <T> T get(String key);
+}
+```
 
 
 ## License
@@ -245,20 +319,3 @@ boolean onUpdate() default false;
   See the License for the specific language governing permissions and
   limitations under the License.
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
