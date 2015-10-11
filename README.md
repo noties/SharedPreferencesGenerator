@@ -18,7 +18,9 @@ compile 'ru.noties.spg:annotations:X.X.X'
 **Compiler**
 [![Maven Central](https://img.shields.io/maven-central/v/ru.noties.spg/processor.svg)](http://search.maven.org/#search|ga|1|g%3A%22ru.noties.spg%22%20AND%20a%3A%22processor%22)
 ```groovy
-apt 'ru.noties.spg:processor:X.X.X'
+apt ('ru.noties.spg:processor:X.X.X') {
+    exclude module: 'annotations'
+}
 ```
 
 ### Basic
