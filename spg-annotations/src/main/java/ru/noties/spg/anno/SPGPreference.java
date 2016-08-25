@@ -24,7 +24,7 @@ public @interface SPGPreference {
     String defBool() default "false";
     String defInt() default "-1";
     String defLong() default "-1L";
-    String defFloat() default "Float.NaN";
+    String defFloat() default ".0F";
     String defString() default "null";
 
 }

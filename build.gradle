@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.3'
+        classpath 'com.android.tools.build:gradle:2.1.3'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -16,4 +16,17 @@ allprojects {
     repositories {
         jcenter()
     }
+}
+
+def hasMaven() {
+    project.hasProperty('upload')
+}
+
+ext {
+    BUILD_TOOLS_VERSION = '23.0.2'
+    COMPILE_SDK_VERSION = 23
+    MIN_SDK_VERSION = 14
+    hasMaven = this.&hasMaven
+    final def sep = File.separator
+    ANNOTATIONS_SRC = "${project.rootDir}${sep}spg-annotations${sep}src${sep}main${sep}java"
 }

@@ -1,10 +1,21 @@
 apply plugin: 'java'
-apply from: '../gradle_maven_jar_publish.gradle'
+
+if (hasMaven()) {
+    apply from: '../gradle_maven_jar_publish.gradle'
+}
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
+version = VERSION_NAME
+
+// yeah, yeah! Ugly, I know
+sourceSets {
+    main {
+        java.srcDirs += ANNOTATIONS_SRC
+    }
+}
+
 dependencies {
-    compile project(':spg-annotations')
     testCompile 'junit:junit:4.12'
 }

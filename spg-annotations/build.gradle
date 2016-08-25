@@ -1,5 +1,11 @@
 apply plugin: 'java'
-apply from: '../gradle_maven_jar_publish.gradle'
+
+// we no longer upload this artifact to maven
+//if (hasMaven()) {
+//    apply from: '../gradle_maven_jar_publish.gradle'
+//}
+
+version = VERSION_NAME
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7

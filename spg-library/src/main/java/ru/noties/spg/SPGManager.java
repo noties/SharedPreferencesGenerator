@@ -1,12 +1,7 @@
 package ru.noties.spg;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Dimitry Ivanov on 14.07.2015.
@@ -32,7 +27,7 @@ public class SPGManager {
     private ContextProvider mContextProvider;
 
     private SPGManager() {
-        mSerializers = Collections.synchronizedMap(new HashMap<Class<?>, SPGSerializer<?, ?>>());
+        mSerializers = new ConcurrentHashMap<>();
     }
 
     public static void setContextProvider(ContextProvider contextProvider) {

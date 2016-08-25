@@ -7,18 +7,18 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.5.1'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion COMPILE_SDK_VERSION
+    buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId "ru.noties.spg.sample"
-        minSdkVersion 14
-        targetSdkVersion 22
+        minSdkVersion MIN_SDK_VERSION
+        targetSdkVersion COMPILE_SDK_VERSION
         versionCode 1
         versionName "1.0"
     }
@@ -34,6 +34,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile project(':spg-library')
-    compile project(':spg-annotations')
+//    compile project(':spg-annotations')
     apt project(':spg-processor')
 }

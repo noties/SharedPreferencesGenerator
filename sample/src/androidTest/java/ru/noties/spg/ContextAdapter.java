@@ -357,6 +357,11 @@ public class ContextAdapter extends Context {
         return delegate.getSystemService(name);
     }
 
+    @Override
+    public String getSystemServiceName(Class<?> serviceClass) {
+        return delegate.getSystemServiceName(serviceClass);
+    }
+
     public int checkPermission(String permission, int pid, int uid) {
         return delegate.checkPermission(permission, pid, uid);
     }
@@ -367,6 +372,11 @@ public class ContextAdapter extends Context {
 
     public int checkCallingOrSelfPermission(String permission) {
         return delegate.checkCallingOrSelfPermission(permission);
+    }
+
+    @Override
+    public int checkSelfPermission(String permission) {
+        return delegate.checkSelfPermission(permission);
     }
 
     public void enforcePermission(String permission, int pid, int uid, String message) {
