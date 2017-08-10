@@ -6,6 +6,8 @@
 gradlew
 gradlew.bat
 
+/gradle
+
 **/build
 
 *.iml
