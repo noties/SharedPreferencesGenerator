@@ -34,7 +34,7 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
             "// The description for this preference was taken from: %s\n" +
             "// Do not modify this file\n\n";
 
-    private static final String CLASS_STATEMENT_PATTERN = "public final class %s implements SPGPreferenceObject {\n\n";
+    private static final String CLASS_STATEMENT_PATTERN = "public class %s implements SPGPreferenceObject {\n\n";
 
     private static final String CONST_PREF_NAME = "PREFERENCE_NAME";
     private static final String CONST_PREF_MODE = "PREFERENCE_MODE";
