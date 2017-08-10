@@ -11,6 +11,7 @@ public class PreferenceHolder {
 
     public final TypeElement typeElement;
     public final String name;
+    public final boolean defaultName;
     public final int preferenceMode;
     public final List<String> imports;
     public final boolean isSingleton;
@@ -20,6 +21,7 @@ public class PreferenceHolder {
     PreferenceHolder(
             TypeElement typeElement,
             String name,
+            boolean defaultName,
             int preferenceMode,
             List<String> imports,
             boolean isSingleton,
@@ -28,6 +30,7 @@ public class PreferenceHolder {
     ) {
         this.typeElement = typeElement;
         this.name = name;
+        this.defaultName = defaultName;
         this.preferenceMode = preferenceMode;
         this.imports = imports;
         this.isSingleton = isSingleton;
@@ -40,6 +43,7 @@ public class PreferenceHolder {
         return "PreferenceHolder{" +
                 "typeElement=" + typeElement +
                 ", name='" + name + '\'' +
+                ", defaultName=" + defaultName +
                 ", preferenceMode=" + preferenceMode +
                 ", imports=" + imports +
                 ", isSingleton=" + isSingleton +

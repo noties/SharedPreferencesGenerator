@@ -63,6 +63,7 @@ public class SPGPreferenceParser implements ru.noties.spg.processor.Logger {
         } else {
             prefName = element.getSimpleName().toString();
         }
+        final boolean prefDefaultName = preference.defaultName();
         final int prefMode = preference.sharedPreferenceMode();
         final boolean isSingleton = preference.isSingleton();
         final String[] importsArray = preference.imports();
@@ -83,6 +84,7 @@ public class SPGPreferenceParser implements ru.noties.spg.processor.Logger {
         return new PreferenceHolder(
                 element,
                 prefName,
+                prefDefaultName,
                 prefMode,
                 imports,
                 isSingleton,

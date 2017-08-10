@@ -17,6 +17,7 @@ import java.lang.annotation.Target;
 public @interface SPGPreference {
 
     String name() default "";
+    boolean defaultName() default false;
     int sharedPreferenceMode() default 0;
     String[] imports() default {};
     boolean isSingleton() default false;

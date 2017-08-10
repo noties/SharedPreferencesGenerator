@@ -3,7 +3,6 @@
 /.idea
 .DS_Store
 
-/gradle
 gradlew
 gradlew.bat
 
@@ -47,3 +46,4 @@ proguard/
 *.iws
 .idea/
 .gradle/
+
