@@ -1,39 +1,21 @@
 # SharedPreferencesGenerator (SPG)
 A simple tool for code generation of `android.content.SharedPreferences` based on model class described in java with a little help of annotations. Provides an ability to encapsulate data, saves time writing boiler-plate code, goes beyond SharedPreferences usage with easy-to use Serialization & default values evaluation at runtime.
 
-### Changelog 1.0.2
-* Removed `annotations` artifact, right now there is no need to addionally add it to the project.
-* Changed `DEF_FLOAT` value to `.0F` (previously was `Float.NaN`)
-* Compiled against SDK level 23
-
 ### Installation
 
 **Core**
 [![Maven Central](https://img.shields.io/maven-central/v/ru.noties.spg/core.svg)](http://search.maven.org/#search|ga|1|g%3A%22ru.noties.spg%22%20AND%20a%3A%22core%22)
 ```groovy
-compile 'ru.noties.spg:core:X.X.X'
+compile 'ru.noties.spg:core:1.0.3'
 ```
 
 **Compiler**
 [![Maven Central](https://img.shields.io/maven-central/v/ru.noties.spg/processor.svg)](http://search.maven.org/#search|ga|1|g%3A%22ru.noties.spg%22%20AND%20a%3A%22processor%22)
 ```groovy
-apt 'ru.noties.spg:processor:X.X.X'
+annotationProcessor 'ru.noties.spg:processor:1.0.3'
 ```
 
-In order to generate preference classes one must add `com.neenbedankt.android-apt` plugin to the `build.gradle` (see sample/build.gradle for reference):
-```groovy
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-    }
-}
-apply plugin: 'com.neenbedankt.android-apt'
-```
-The generated classes could be found under `app/build/generated/source/apt/*` and will have the same package as the class annotated with `@SPGPreference`. Please also note, that with every change to the source class (annotated with `@SPGPreference`) project must be rebuild to reflect latest changes.
+The generated classes could be found under `{moduleName}/build/generated/source/apt/*` and will have the same package as the class annotated with `@SPGPreference`. Please also note, that with every change to the source class (annotated with `@SPGPreference`) project must be rebuild to reflect latest changes.
 
 ### Basic
 Create a java object to describe your future SharedPreferences model & annotate it with `ru.noties.spg.anno.SPGPreference`. The simplest usage would be:
@@ -53,7 +35,7 @@ With a little help of SPG library you will get a lof of useful information of a 
 // The description for this preference was taken from: ru.noties.spg.sample.pref.Preferences.Simplest
 // Do not modify this file
 
-public final class SimplestPreference implements SPGPreferenceObject {
+public class SimplestPreference implements SPGPreferenceObject {
 
     public static final String PREFERENCE_NAME = "Simplest";
     public static final int PREFERENCE_MODE = 0;
