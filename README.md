@@ -175,6 +175,7 @@ public class SimplestPreference implements SPGPreferenceObject {
 ### @SPGPreference
 ```java
 String name() default "";
+String defaultName() default "";
 int sharedPreferenceMode() default 0;
 String[] imports() default {};
 boolean isSingleton() default false;
@@ -185,6 +186,9 @@ boolean isSingleton() default false;
 **sharedPreferenceMode** - well, the shared preference mode
 
 The above 2 are well known via `context.getSharedPreferences(**name**, **sharedPreferencesMode**)`
+
+**defaultName** - the default SharedPreferences name will be used (as in call `android.preference.PreferenceManager.getDefaultSharedPreferences(context)`)
+
 
 **imports** - is a simple way to actually import a certain java package/packages. This comes at handy when dealing with runtime code evaluation (on which later)
 
