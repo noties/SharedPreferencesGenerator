@@ -3,9 +3,11 @@
 /.idea
 .DS_Store
 
-/gradle
 gradlew
 gradlew.bat
+
+/gradle
+/.android-dex-cache
 
 **/build
 
@@ -47,3 +49,4 @@ proguard/
 *.iws
 .idea/
 .gradle/
+
