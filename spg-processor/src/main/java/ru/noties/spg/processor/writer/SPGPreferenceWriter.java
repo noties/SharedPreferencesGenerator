@@ -3,6 +3,7 @@ package ru.noties.spg.processor.writer;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
 import ru.noties.spg.processor.data.DefItem;
+import ru.noties.spg.processor.data.KeyHolder;
 import ru.noties.spg.processor.data.KeyType;
 import ru.noties.spg.processor.data.PreferenceHolder;
 
@@ -34,7 +36,8 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
             "// The description for this preference was taken from: %s\n" +
             "// Do not modify this file\n\n";
 
-    private static final String CLASS_STATEMENT_PATTERN = "public class %s implements SPGPreferenceObject {\n\n";
+    private static final String CLASS_STATEMENT_PATTERN = "public class %s implements SPGPreferenceObject%s {\n\n";
+    private static final String ENTITY_INTERFACE_PATTERN = ", SPGPreferenceEntity<%s>";
 
     private static final String CONST_PREF_NAME = "PREFERENCE_NAME";
     private static final String CONST_PREF_MODE = "PREFERENCE_MODE";
@@ -61,8 +64,9 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
 
         final TypeElement element = preference.typeElement;
 
-        final String prefPackage    = mElements.getPackageOf(element).toString();
-        final String prefClassName  = createClassName(element);
+        final String entityClassName = createQualifiedName(element);
+        final String prefPackage     = mElements.getPackageOf(element).toString();
+        final String prefClassName   = createClassName(element);
 
         log(Diagnostic.Kind.NOTE, "Writing @SPGPreference: `%s` to a file: `%s.%s.java`", element, prefPackage, prefClassName);
 
@@ -80,7 +84,7 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
         writeGenInfo(builder, element);
 
         // write class statement
-        writeClassStatement(builder, prefClassName);
+        writeClassStatement(builder, prefClassName, preference.toEntity ? entityClassName : null);
 
         indent.increment();
 
@@ -158,7 +162,7 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
         }
         builder.append('\n');
 
-        final List<ru.noties.spg.processor.data.KeyHolder> keys = preference.keys;
+        final List<KeyHolder> keys = preference.keys;
 
         for (ru.noties.spg.processor.data.KeyHolder key: keys) {
             builder.append(indent)
@@ -258,7 +262,7 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
                 .append("}\n\n");
     }
 
-    private static void writeGetters(StringBuilder builder, Indent indent, List<ru.noties.spg.processor.data.KeyHolder> keys) {
+    private static void writeGetters(StringBuilder builder, Indent indent, List<KeyHolder> keys) {
         for (ru.noties.spg.processor.data.KeyHolder key: keys) {
             final Element e = key.element;
             final TypeMirror typeMirror = e.asType();
@@ -362,6 +366,10 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
         return element.getSimpleName().toString() + "Preference";
     }
 
+    private static String createQualifiedName(TypeElement element) {
+        return element.getQualifiedName().toString();
+    }
+
     private static String createPackageStatement(String p) {
         return "package " + p;
     }
@@ -396,9 +404,10 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
         );
     }
 
-    private static void writeClassStatement(StringBuilder builder, String className) {
+    private static void writeClassStatement(StringBuilder builder, String prefClassName, String entityClassName) {
         builder.append(
-                String.format(CLASS_STATEMENT_PATTERN, className)
+                String.format(CLASS_STATEMENT_PATTERN, prefClassName,
+                        entityClassName != null ? String.format(ENTITY_INTERFACE_PATTERN, entityClassName) : "")
         );
     }
 
@@ -545,6 +554,11 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
         writeSimpleGet(builder, indent, "int", CONST_PREF_MODE, "sharedPreferencesMode");
 
         writeGenericGetMethod(builder, indent, preference);
+
+        // toEntity()
+        if (preference.toEntity) {
+            writeGenericToEntityMethod(builder, indent, preference);
+        }
     }
 
     private static void writeToMapMethod(StringBuilder builder, Indent indent, PreferenceHolder preference) {
@@ -593,6 +607,34 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
                     .append(localVarName)
                     .append(";\n")
                     .append(indent.decrement())
+                .append("}\n\n");
+    }
+
+    private static void writeGenericToEntityMethod(StringBuilder builder, Indent indent, PreferenceHolder holder){
+        String qualifiedName = createQualifiedName(holder.typeElement);
+
+        builder
+                .append(indent)
+                .append("public ")
+                .append(qualifiedName)
+                .append(" toEntity() {\n")
+                .append(indent.increment())
+                .append("return new ")
+                .append(qualifiedName)
+                .append("(");
+
+        for (Iterator<KeyHolder> iterator = holder.keys.iterator(); iterator.hasNext(); ) {
+            KeyHolder key = iterator.next();
+            final boolean isBool = key.keyType == KeyType.BOOL;
+
+            builder
+                    .append(isBool ? MethodNameUtils.createBooleanGetter(key.fieldName) : MethodNameUtils.createGetter(key.fieldName))
+                    .append("()")
+                    .append(iterator.hasNext() ? ", " : ");\n");
+        }
+
+        builder
+                .append(indent.decrement())
                 .append("}\n\n");
     }
 

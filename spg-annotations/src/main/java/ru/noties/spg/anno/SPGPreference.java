@@ -22,6 +22,8 @@ public @interface SPGPreference {
     String[] imports() default {};
     boolean isSingleton() default false;
 
+    boolean toEntity() default false;
+    
     String defBool() default "false";
     String defInt() default "-1";
     String defLong() default "-1L";

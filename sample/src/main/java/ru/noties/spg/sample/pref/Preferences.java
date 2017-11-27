@@ -89,4 +89,21 @@ final class Preferences {
         @SPGKey(onUpdate = true)
         private String someString;
     }
+
+    @SPGPreference(
+            toEntity = true
+    )
+    static class Entity {
+        String someString;
+        long someLong;
+        int someInt;
+        boolean someBool;
+
+        Entity(String someString, long someLong, int someInt, boolean someBool) {
+            this.someString = someString;
+            this.someLong = someLong;
+            this.someInt = someInt;
+            this.someBool = someBool;
+        }
+    }
 }

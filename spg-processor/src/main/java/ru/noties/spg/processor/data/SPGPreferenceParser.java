@@ -80,6 +80,7 @@ public class SPGPreferenceParser implements ru.noties.spg.processor.Logger {
 
         final List<KeyHolder> keyHolders    = parseKeys(keys);
         final PreferenceDefaults defaults   = parseDefaults(preference);
+        final boolean toEntity              = preference.toEntity();
 
         return new PreferenceHolder(
                 element,
@@ -89,7 +90,8 @@ public class SPGPreferenceParser implements ru.noties.spg.processor.Logger {
                 imports,
                 isSingleton,
                 keyHolders,
-                defaults
+                defaults,
+                toEntity
         );
     }
 

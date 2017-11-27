@@ -17,6 +17,7 @@ public class PreferenceHolder {
     public final boolean isSingleton;
     public final List<KeyHolder> keys;
     public final PreferenceDefaults defaults;
+    public final boolean toEntity;
 
     PreferenceHolder(
             TypeElement typeElement,
@@ -26,7 +27,8 @@ public class PreferenceHolder {
             List<String> imports,
             boolean isSingleton,
             List<KeyHolder> keys,
-            PreferenceDefaults defaults
+            PreferenceDefaults defaults,
+            boolean toEntity
     ) {
         this.typeElement = typeElement;
         this.name = name;
@@ -36,6 +38,7 @@ public class PreferenceHolder {
         this.isSingleton = isSingleton;
         this.keys = keys;
         this.defaults = defaults;
+        this.toEntity = toEntity;
     }
 
     @Override
@@ -49,6 +52,7 @@ public class PreferenceHolder {
                 ", isSingleton=" + isSingleton +
                 ", keys=" + keys +
                 ", defaults=" + defaults +
+                ", toEntity=" + toEntity +
                 '}';
     }
 }
