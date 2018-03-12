@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.type.TypeMirror;
@@ -98,6 +99,10 @@ public class SPGPreferenceParser implements ru.noties.spg.processor.Logger {
     private List<KeyHolder> parseKeys(List<? extends Element> enclosed) {
         final List<KeyHolder> keyHolders = new ArrayList<>();
         for (Element e: enclosed) {
+
+            if (e.getModifiers().contains(Modifier.STATIC)) {
+                continue;
+            }
 
             final ru.noties.spg.anno.SPGKey key = e.getAnnotation(ru.noties.spg.anno.SPGKey.class);
 
