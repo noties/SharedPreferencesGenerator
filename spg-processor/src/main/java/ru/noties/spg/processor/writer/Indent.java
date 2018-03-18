@@ -1,27 +1,30 @@
 package ru.noties.spg.processor.writer;
 
+import android.support.annotation.NonNull;
+
 import java.util.Arrays;
 
-/**
- * Created by Dimitry Ivanov on 15.07.2015.
- */
+@SuppressWarnings("WeakerAccess")
 public class Indent {
 
     private int length;
     private String cached;
 
+    @NonNull
     public Indent increment() {
         length++;
         cached = null;
         return this;
     }
 
+    @NonNull
     public Indent decrement() {
         length--;
         cached = null;
         return this;
     }
 
+    @NonNull
     public Indent setLength(int length) {
         if (this.length != length) {
             this.length = length;
@@ -38,7 +41,8 @@ public class Indent {
         return cached;
     }
 
-    static String createCache(int length) {
+    @NonNull
+    private static String createCache(int length) {
         if (length == 0) {
             return "";
         }

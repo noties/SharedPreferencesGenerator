@@ -9,7 +9,6 @@ targetCompatibility = 1.7
 
 version = VERSION_NAME
 
-// yeah, yeah! Ugly, I know
 sourceSets {
     main {
         java.srcDirs += ANNOTATIONS_SRC
@@ -17,5 +16,6 @@ sourceSets {
 }
 
 dependencies {
+    implementation SUPPORT_ANNOTATIONS
     testCompile 'junit:junit:4.12'
 }

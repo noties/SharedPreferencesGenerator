@@ -1,15 +1,17 @@
 package ru.noties.spg;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Created by Dimitry Ivanov on 14.07.2015.
- */
+@SuppressWarnings("WeakerAccess")
 public class SPGManager {
 
     private static volatile SPGManager sInstance = null;
 
+    @NonNull
     public static SPGManager getInstance() {
         SPGManager local = sInstance;
         if (local == null) {
@@ -30,21 +32,23 @@ public class SPGManager {
         mSerializers = new ConcurrentHashMap<>();
     }
 
-    public static void setContextProvider(ContextProvider contextProvider) {
+    public static void setContextProvider(@Nullable ContextProvider contextProvider) {
         SPGManager.getInstance().mContextProvider = contextProvider;
     }
 
+    @Nullable
     public static ContextProvider getContextProvider() {
         return SPGManager.getInstance().mContextProvider;
     }
 
-    public static <S extends SPGSerializer<?, ?>> S getSerializer(Class<S> c) {
+    @Nullable
+    public static <S extends SPGSerializer<?, ?>> S getSerializer(@NonNull Class<S> c) {
         final Map map = SPGManager.getInstance().mSerializers;
         //noinspection unchecked
         return (S) map.get(c);
     }
 
-    public static <S extends SPGSerializer<?, ?>> void addSerializer(S serializer) {
+    public static <S extends SPGSerializer<?, ?>> void addSerializer(@NonNull S serializer) {
         final Map map = SPGManager.getInstance().mSerializers;
         //noinspection unchecked
         map.put(serializer.getClass(), serializer);

@@ -2,9 +2,6 @@ package ru.noties.spg.processor.data;
 
 import javax.lang.model.element.Element;
 
-/**
- * Created by Dimitry Ivanov on 15.07.2015.
- */
 public class KeyHolder {
 
     public final Element element;

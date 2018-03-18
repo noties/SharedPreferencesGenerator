@@ -1,20 +1,28 @@
 package ru.noties.spg;
 
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.Map;
 
-/**
- * Created by Dimitry Ivanov on 16.07.2015.
- */
 public interface SPGPreferenceObject {
 
+    @NonNull
     String getSharedPreferencesName();
+
     int getSharedPreferencesMode();
+
+    @NonNull
     SharedPreferences getSharedPreferences();
+
+    @NonNull
     SharedPreferences.Editor getEditor();
+
+    @NonNull
     Map<String, Object> toMap();
 
-    <T> T get(String key);
+    @Nullable
+    <T> T get(@NonNull String key);
 
 }

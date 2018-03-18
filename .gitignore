@@ -3,11 +3,8 @@
 /.idea
 .DS_Store
 
-gradlew
-gradlew.bat
-
-/gradle
 /.android-dex-cache
+.android-dex-cache.lock
 
 **/build
 

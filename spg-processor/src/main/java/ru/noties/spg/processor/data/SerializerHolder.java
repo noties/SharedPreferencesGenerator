@@ -1,8 +1,5 @@
 package ru.noties.spg.processor.data;
 
-/**
- * Created by Dimitry Ivanov on 15.07.2015.
- */
 public class SerializerHolder {
 
     public final String name;

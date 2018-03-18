@@ -4,9 +4,6 @@ import java.util.List;
 
 import javax.lang.model.element.TypeElement;
 
-/**
- * Created by Dimitry Ivanov on 15.07.2015.
- */
 public class PreferenceHolder {
 
     public final TypeElement typeElement;

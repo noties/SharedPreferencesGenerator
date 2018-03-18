@@ -1,10 +1,10 @@
 package ru.noties.spg;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
-/**
- * Created by Dimitry Ivanov on 14.07.2015.
- */
 public interface ContextProvider {
+
+    @NonNull
     Context provide();
 }

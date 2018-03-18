@@ -4,8 +4,6 @@ if (hasMaven()) {
     apply from: 'https://raw.githubusercontent.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
 }
 
-version = VERSION_NAME
-
 android {
 
     compileSdkVersion COMPILE_SDK_VERSION
@@ -15,14 +13,16 @@ android {
         minSdkVersion MIN_SDK_VERSION
         targetSdkVersion COMPILE_SDK_VERSION
         versionCode 1
-        versionName "1.0"
+        versionName version
     }
 
-    // the ugliest solution out there!
-    // we just include source files from annotations module :)
     sourceSets {
         main {
             java.srcDirs += ANNOTATIONS_SRC
         }
     }
+}
+
+dependencies {
+    api SUPPORT_ANNOTATIONS
 }
