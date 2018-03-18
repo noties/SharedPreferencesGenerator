@@ -9,13 +9,12 @@ android {
         minSdkVersion MIN_SDK_VERSION
         targetSdkVersion COMPILE_SDK_VERSION
         versionCode 1
-        versionName "1.0"
+        versionName version
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile project(':spg-library')
+    implementation SUPPORT_ANNOTATIONS
+    implementation project(':spg-library')
     annotationProcessor project(':spg-processor')
 }

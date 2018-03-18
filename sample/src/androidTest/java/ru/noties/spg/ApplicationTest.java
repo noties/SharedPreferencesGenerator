@@ -3,6 +3,7 @@ package ru.noties.spg;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.test.ApplicationTestCase;
 
 import java.util.Date;
@@ -39,6 +40,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         setContext(context);
 
         final ContextProvider provider = new ContextProvider() {
+            @NonNull
             @Override
             public Context provide() {
                 return getContext();
