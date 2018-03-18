@@ -3,16 +3,13 @@ package ru.noties.spg.processor.data;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 
-/**
- * Created by Dimitry Ivanov on 15.07.2015.
- */
 public enum KeyType {
 
-    BOOL    ("java.lang.Boolean",   "boolean"),
-    INT     ("java.lang.Integer",   "int"),
-    LONG    ("java.lang.Long",      "long"),
-    FLOAT   ("java.lang.Float",     "float"),
-    STRING  ("java.lang.String",    "String");
+    BOOL("java.lang.Boolean", "boolean"),
+    INT("java.lang.Integer", "int"),
+    LONG("java.lang.Long", "long"),
+    FLOAT("java.lang.Float", "float"),
+    STRING("java.lang.String", "String");
 
     private final String value;
     private final String repr;
@@ -50,7 +47,7 @@ public enum KeyType {
 
         final String s = mirror.toString();
 
-        for (KeyType type: KeyType.values()) {
+        for (KeyType type : KeyType.values()) {
             if (type.value.equals(s)) {
                 return type;
             }

@@ -16,5 +16,6 @@ sourceSets {
 }
 
 dependencies {
+    implementation SUPPORT_ANNOTATIONS
     testCompile 'junit:junit:4.12'
 }

@@ -1,8 +1,5 @@
 package ru.noties.spg.processor.data;
 
-/**
- * Created by Dimitry Ivanov on 16.07.2015.
- */
 public class DefItem {
 
     public final String value;

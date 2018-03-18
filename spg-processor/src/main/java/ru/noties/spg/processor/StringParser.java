@@ -1,25 +1,23 @@
 package ru.noties.spg.processor;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ru.noties.spg.processor.util.TextUtils;
 
-/**
- * Created by Dimitry Ivanov on 15.07.2015.
- */
-public class StringParser {
-
-    private StringParser() {}
+public abstract class StringParser {
 
     private static final Pattern PATTERN = Pattern.compile("(\\$\\{\\s*)(.+)(\\s*\\})");
 
     // package visible for testing
-    static final char[] ILLEGAL_CHARS = new char[] {
+    private static final char[] ILLEGAL_CHARS = new char[]{
             ';', '\n', ','
     };
 
-    public static boolean isEvaluationString(String in) {
+    public static boolean isEvaluationString(@Nullable String in) {
         if (TextUtils.isEmpty(in)) {
             return false;
         }
@@ -46,11 +44,15 @@ public class StringParser {
         return true;
     }
 
-    public static String extractEvaluation(String in) {
+    @Nullable
+    public static String extractEvaluation(@NonNull String in) {
         final Matcher matcher = PATTERN.matcher(in);
         if (matcher.matches()) {
             return matcher.group(2);
         }
         return null;
+    }
+
+    private StringParser() {
     }
 }

@@ -20,9 +20,6 @@ import javax.tools.Diagnostic;
 import ru.noties.spg.processor.data.SPGPreferenceParser;
 import ru.noties.spg.processor.writer.SPGPreferenceWriter;
 
-/**
- * Created by Dimitry Ivanov on 14.07.2015.
- */
 public class SPGProcessor extends AbstractProcessor implements Logger {
 
     private Types mTypes;
@@ -52,7 +49,7 @@ public class SPGProcessor extends AbstractProcessor implements Logger {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         long start = -1L;
         try {
-            for (TypeElement element: annotations) {
+            for (TypeElement element : annotations) {
                 if (start == -1L) {
                     start = System.currentTimeMillis();
                 }
@@ -75,7 +72,7 @@ public class SPGProcessor extends AbstractProcessor implements Logger {
         final List<ru.noties.spg.processor.data.PreferenceHolder> list = new ArrayList<>();
         final SPGPreferenceParser parser = new SPGPreferenceParser(this, mTypes, mElements);
         ru.noties.spg.processor.data.PreferenceHolder holder;
-        for (Element element: preferences) {
+        for (Element element : preferences) {
             holder = parser.parse((TypeElement) element);
             if (holder != null) {
                 list.add(holder);
@@ -84,7 +81,7 @@ public class SPGProcessor extends AbstractProcessor implements Logger {
 
         if (list.size() > 0) {
             final SPGPreferenceWriter writer = new SPGPreferenceWriter(this, mElements, mFiler);
-            for (ru.noties.spg.processor.data.PreferenceHolder ph: list) {
+            for (ru.noties.spg.processor.data.PreferenceHolder ph : list) {
                 writer.write(ph);
             }
         }

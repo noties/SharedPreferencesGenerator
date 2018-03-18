@@ -17,9 +17,6 @@ import javax.tools.Diagnostic;
 import ru.noties.spg.processor.util.TextUtils;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-/**
- * Created by Dimitry Ivanov on 15.07.2015.
- */
 public class SPGPreferenceParser implements ru.noties.spg.processor.Logger {
 
     private static final String VOID = Void.class.getCanonicalName();
@@ -45,7 +42,7 @@ public class SPGPreferenceParser implements ru.noties.spg.processor.Logger {
         final List<? extends Element> enclosed = element.getEnclosedElements();
         final List<Element> keys = new ArrayList<>();
 
-        for (Element e: enclosed) {
+        for (Element e : enclosed) {
             if (e.getKind() == ElementKind.FIELD) {
                 keys.add(e);
             }
@@ -71,15 +68,15 @@ public class SPGPreferenceParser implements ru.noties.spg.processor.Logger {
         if (importsArray != null
                 && importsArray.length > 0) {
             imports = new ArrayList<>();
-            for (String s: importsArray) {
+            for (String s : importsArray) {
                 imports.add(s);
             }
         } else {
             imports = null;
         }
 
-        final List<KeyHolder> keyHolders    = parseKeys(keys);
-        final PreferenceDefaults defaults   = parseDefaults(preference);
+        final List<KeyHolder> keyHolders = parseKeys(keys);
+        final PreferenceDefaults defaults = parseDefaults(preference);
 
         return new PreferenceHolder(
                 element,
@@ -95,7 +92,7 @@ public class SPGPreferenceParser implements ru.noties.spg.processor.Logger {
 
     private List<KeyHolder> parseKeys(List<? extends Element> enclosed) {
         final List<KeyHolder> keyHolders = new ArrayList<>();
-        for (Element e: enclosed) {
+        for (Element e : enclosed) {
 
             final ru.noties.spg.anno.SPGKey key = e.getAnnotation(ru.noties.spg.anno.SPGKey.class);
 
@@ -135,8 +132,8 @@ public class SPGPreferenceParser implements ru.noties.spg.processor.Logger {
             if (keyType == null
                     && serializer == null) {
                 log(Diagnostic.Kind.ERROR, "Specified type is not natively " +
-                        "supported by SharedPreferences: %s," +
-                        "enclosed element: %s",
+                                "supported by SharedPreferences: %s," +
+                                "enclosed element: %s",
                         e.asType(), e.getEnclosingElement()
                 );
                 return null;
@@ -256,7 +253,7 @@ public class SPGPreferenceParser implements ru.noties.spg.processor.Logger {
 
     private TypeMirror extractSPGSerializerInterface(TypeElement element) {
         final List<? extends TypeMirror> interfaces = element.getInterfaces();
-        for (TypeMirror tp: interfaces) {
+        for (TypeMirror tp : interfaces) {
             if (tp.toString().startsWith("ru.noties.spg.SPGSerializer")) {
                 return tp;
             }
@@ -266,11 +263,11 @@ public class SPGPreferenceParser implements ru.noties.spg.processor.Logger {
 
     private PreferenceDefaults parseDefaults(ru.noties.spg.anno.SPGPreference p) {
         return new PreferenceDefaults.Builder()
-                .add(ru.noties.spg.processor.data.KeyType.BOOL,      parseDefaultValue(ru.noties.spg.processor.data.KeyType.BOOL,     p.defBool()))
-                .add(ru.noties.spg.processor.data.KeyType.INT,       parseDefaultValue(ru.noties.spg.processor.data.KeyType.INT,      p.defInt()))
-                .add(ru.noties.spg.processor.data.KeyType.LONG,      parseDefaultValue(ru.noties.spg.processor.data.KeyType.LONG,     p.defLong()))
-                .add(ru.noties.spg.processor.data.KeyType.FLOAT,     parseDefaultValue(ru.noties.spg.processor.data.KeyType.FLOAT,    p.defFloat()))
-                .add(ru.noties.spg.processor.data.KeyType.STRING,    parseDefaultValue(ru.noties.spg.processor.data.KeyType.STRING,   p.defString()))
+                .add(ru.noties.spg.processor.data.KeyType.BOOL, parseDefaultValue(ru.noties.spg.processor.data.KeyType.BOOL, p.defBool()))
+                .add(ru.noties.spg.processor.data.KeyType.INT, parseDefaultValue(ru.noties.spg.processor.data.KeyType.INT, p.defInt()))
+                .add(ru.noties.spg.processor.data.KeyType.LONG, parseDefaultValue(ru.noties.spg.processor.data.KeyType.LONG, p.defLong()))
+                .add(ru.noties.spg.processor.data.KeyType.FLOAT, parseDefaultValue(ru.noties.spg.processor.data.KeyType.FLOAT, p.defFloat()))
+                .add(ru.noties.spg.processor.data.KeyType.STRING, parseDefaultValue(ru.noties.spg.processor.data.KeyType.STRING, p.defString()))
                 .build();
     }
 

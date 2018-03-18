@@ -4,9 +4,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Dimitry Ivanov on 16.07.2015.
- */
 public class PreferenceDefaults {
 
     public final Map<KeyType, ru.noties.spg.processor.data.DefItem> defs;
