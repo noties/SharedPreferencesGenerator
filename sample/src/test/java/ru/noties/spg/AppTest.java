@@ -1,10 +1,17 @@
 package ru.noties.spg;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import android.test.ApplicationTestCase;
+import androidx.annotation.NonNull;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
 import java.util.Date;
 
@@ -13,46 +20,57 @@ import ru.noties.spg.sample.pref.OnUpdatePreference;
 import ru.noties.spg.sample.pref.SerializationPreference;
 import ru.noties.spg.sample.pref.WithDefaultsPreference;
 
-/**
- * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
- */
-public class ApplicationTest extends ApplicationTestCase<Application> {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-    private boolean mCreated;
+@RunWith(RobolectricTestRunner.class)
+@Config(manifest = Config.NONE)
+public class AppTest {
 
-    public ApplicationTest() {
-        super(Application.class);
-    }
+    private Context context;
 
-    private void checkCreated() {
-        if (!mCreated) {
-            createApplication();
-            mCreated = true;
-        }
-
-        final Context context = new ContextAdapter(getContext()) {
-            @Override
-            public SharedPreferences getSharedPreferences(String name, int mode) {
-                final SharedPreferences sys = getDelegate().getSharedPreferences(name, mode);
-                return new SharedPreferencesMock(sys);
-            }
-        };
-        setContext(context);
-
-        final ContextProvider provider = new ContextProvider() {
+    @Before
+    public void before() {
+        context = RuntimeEnvironment.application;
+        SPGManager.setContextProvider(new ContextProvider() {
             @NonNull
             @Override
             public Context provide() {
-                return getContext();
+                return context;
             }
-        };
-        SPGManager.setContextProvider(provider);
-        assertTrue(SPGManager.getContextProvider() != null);
+        });
     }
 
-    public void testOnUpdate() throws Throwable {
-        checkCreated();
-        final OnUpdatePreference onUpdatePreference = new OnUpdatePreference(getContext());
+//    private void checkCreated() {
+//        if (!mCreated) {
+//            createApplication();
+//            mCreated = true;
+//        }
+//
+//        final Context context = new ContextAdapter(getContext()) {
+//            @Override
+//            public SharedPreferences getSharedPreferences(String name, int mode) {
+//                final SharedPreferences sys = getDelegate().getSharedPreferences(name, mode);
+//                return new SharedPreferencesMock(sys);
+//            }
+//        };
+//        setContext(context);
+//
+//        final ContextProvider provider = new ContextProvider() {
+//            @NonNull
+//            @Override
+//            public Context provide() {
+//                return getContext();
+//            }
+//        };
+//        SPGManager.setContextProvider(provider);
+//        assertTrue(SPGManager.getContextProvider() != null);
+//    }
+
+    @Test
+    public void testOnUpdate() {
+
+        final OnUpdatePreference onUpdatePreference = new OnUpdatePreference(context);
         final ImmutableBool bool = new ImmutableBool();
         onUpdatePreference.setSomeBoolUpdateListener(new OnUpdateListener() {
             @Override
@@ -65,13 +83,12 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         assertTrue(bool.isValue());
 
         onUpdatePreference.setSomeBoolUpdateListener(null);
-        setContext(((ContextAdapter) getContext()).getDelegate());
     }
 
+    @Test
+    public void testOnUpdateFromSys() {
 
-    public void testOnUpdateFromSys() throws Throwable {
-        checkCreated();
-        final OnUpdatePreference onUpdatePreference = new OnUpdatePreference(getContext());
+        final OnUpdatePreference onUpdatePreference = new OnUpdatePreference(context);
         final SharedPreferences sysPref = onUpdatePreference.getSharedPreferences();
         final ImmutableBool bool = new ImmutableBool();
         onUpdatePreference.setSomeBoolUpdateListener(new OnUpdateListener() {
@@ -84,12 +101,12 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
         assertTrue(bool.isValue());
         onUpdatePreference.setSomeBoolUpdateListener(null);
-        setContext(((ContextAdapter) getContext()).getDelegate());
     }
 
+    @Test
     public void testSerialization() {
 
-        final SerializationPreference preference = new SerializationPreference(getContext());
+        final SerializationPreference preference = new SerializationPreference(context);
         final SharedPreferences sysPref = createSystemPrefs(preference.getSharedPreferencesName(), preference.getSharedPreferencesMode());
 
         final long someDate = 1000L;
@@ -104,20 +121,23 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         assertEquals(date, fromPref);
     }
 
+    @Test
     public void testDefaults() {
-        final WithDefaultsPreference preference = new WithDefaultsPreference(getContext());
+        final WithDefaultsPreference preference = new WithDefaultsPreference(context);
         assertEquals(preference.getSomeString(), "no value");
     }
 
+    @Test
     public void testSingleton() {
         final WithDefaultsPreference preference1 = WithDefaultsPreference.getInstance();
         final WithDefaultsPreference preference2 = WithDefaultsPreference.getInstance();
         assertEquals(preference1, preference2);
     }
 
-    public void testSetter() throws Throwable {
-        checkCreated();
-        final OnUpdatePreference preference = new OnUpdatePreference(getContext());
+    @Test
+    public void testSetter() {
+
+        final OnUpdatePreference preference = new OnUpdatePreference(context);
         final ImmutableBool bool = new ImmutableBool();
         final OnUpdateListener listener = new OnUpdateListener() {
             int received = 0;
@@ -138,11 +158,10 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
         assertTrue(bool.isValue());
         preference.setSomeBoolUpdateListener(null);
-        setContext(((ContextAdapter) getContext()).getDelegate());
     }
 
     private SharedPreferences createSystemPrefs(String name, int mode) {
-        return getContext().getSharedPreferences(name, mode);
+        return context.getSharedPreferences(name, mode);
     }
 
     private static class ImmutableBool {
