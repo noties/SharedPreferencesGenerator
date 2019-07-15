@@ -1,6 +1,6 @@
 package ru.noties.spg.processor.writer;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import ru.noties.spg.processor.util.TextUtils;
 

@@ -1,7 +1,7 @@
 apply plugin: 'java'
 
 if (hasMaven()) {
-    apply from: '../gradle_maven_jar_publish.gradle'
+    apply from: 'https://raw.githubusercontent.com/noties/gradle-mvn-push/master/gradle-mvn-push-jar.gradle'
 }
 
 sourceCompatibility = 1.7

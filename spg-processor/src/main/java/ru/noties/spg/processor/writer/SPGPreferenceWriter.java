@@ -41,8 +41,8 @@ public class SPGPreferenceWriter implements ru.noties.spg.processor.Logger {
     private static final String CLASS_STATEMENT_PATTERN = "public class %s implements SPGPreferenceObject%s {\n\n";
     private static final String ENTITY_INTERFACE_PATTERN = ", SPGPreferenceEntity<%s>";
 
-    private static final String NON_NULL = "@android.support.annotation.NonNull";
-    private static final String NULLABLE = "@android.support.annotation.Nullable";
+    private static final String NON_NULL = "@androidx.annotation.NonNull";
+    private static final String NULLABLE = "@androidx.annotation.Nullable";
 
     private static final String CONST_PREF_NAME = "PREFERENCE_NAME";
     private static final String CONST_PREF_MODE = "PREFERENCE_MODE";

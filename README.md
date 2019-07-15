@@ -1,6 +1,12 @@
 # SharedPreferencesGenerator (SPG)
 A simple tool for code generation of `android.content.SharedPreferences` based on model class described in java with a little help of annotations. Provides an ability to encapsulate data, saves time writing boiler-plate code, goes beyond SharedPreferences usage with easy-to use Serialization & default values evaluation at runtime.
 
+> &nbsp;
+> ----------------------------------------------------------
+> **This library is deprecated and no longer is maintained**
+> ----------------------------------------------------------
+> &nbsp;
+
 ### Installation
 
 **Core**
