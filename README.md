@@ -12,13 +12,13 @@ A simple tool for code generation of `android.content.SharedPreferences` based o
 **Core**
 [![Maven Central](https://img.shields.io/maven-central/v/ru.noties.spg/core.svg)](http://search.maven.org/#search|ga|1|g%3A%22ru.noties.spg%22%20AND%20a%3A%22core%22)
 ```groovy
-compile 'ru.noties.spg:core:1.0.4'
+compile 'ru.noties.spg:core:1.1.0'
 ```
 
 **Compiler**
 [![Maven Central](https://img.shields.io/maven-central/v/ru.noties.spg/processor.svg)](http://search.maven.org/#search|ga|1|g%3A%22ru.noties.spg%22%20AND%20a%3A%22processor%22)
 ```groovy
-annotationProcessor 'ru.noties.spg:processor:1.0.4'
+annotationProcessor 'ru.noties.spg:processor:1.1.0'
 ```
 
 The generated classes could be found under `{moduleName}/build/generated/source/apt/*` and will have the same package as the class annotated with `@SPGPreference`. Please also note, that with every change to the source class (annotated with `@SPGPreference`) project must be rebuild to reflect latest changes.
